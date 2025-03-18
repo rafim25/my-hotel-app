@@ -24,9 +24,16 @@ import bookingReducer, {
   finishEditing
 } from '@/redux/slices/bookingSlice';
 
-// Import components directly instead of using dynamic imports
-const BookingReview = require('@/components/BookingReview').default;
-const PaymentSection = require('@/components/PaymentSection').default;
+// Import components using dynamic imports to avoid SSR issues
+import dynamic from 'next/dynamic';
+
+const BookingReview = dynamic(() => import('@/components/BookingReview'), {
+  ssr: false
+});
+
+const PaymentSection = dynamic(() => import('@/components/PaymentSection'), {
+  ssr: false
+});
 
 const BOOKING_STEPS = [
   { id: 1, title: 'Customer Information', icon: FaUser },
