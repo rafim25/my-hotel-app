@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGoogle, FaFacebook, FaEnvelope, FaTimes, FaArrowRight, FaUser } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function AuthModal({ isOpen, onClose, onSuccess, bookingDetails }) {
   const [authMode, setAuthMode] = useState('options'); // 'options', 'login', or 'register'
@@ -15,6 +18,8 @@ export default function AuthModal({ isOpen, onClose, onSuccess, bookingDetails }
     confirmPassword: '',
   });
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { login, register } = useAuth();
 
   const handleSocialLogin = async (provider) => {
     try {
@@ -32,18 +37,46 @@ export default function AuthModal({ isOpen, onClose, onSuccess, bookingDetails }
     }
   };
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (authMode === 'register' && formData.password !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
     try {
       setLoading(true);
-      // Here you would implement actual registration
-      console.log('Registering with:', formData);
-      // Simulate successful registration
-      setTimeout(() => {
-        onSuccess();
-      }, 1000);
+      if (authMode === 'login') {
+        await login(formData.email, formData.password);
+        toast.success('Successfully logged in!');
+      } else {
+        const registerData = {
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          password: formData.password,
+          mobile: formData.mobile,
+          gender: formData.gender
+        };
+        await register(registerData);
+        toast.success('Account created successfully!');
+      }
+
+      // Close modal and redirect to booking summary with all parameters
+      onClose();
+      if (bookingDetails?.roomId) {
+        const queryParams = new URLSearchParams({
+          roomId: bookingDetails.roomId,
+          checkIn: bookingDetails.checkIn.toISOString(),
+          checkOut: bookingDetails.checkOut.toISOString(),
+          guests: bookingDetails.guests,
+        }).toString();
+        
+        router.push(`/booking/summary?${queryParams}`);
+      }
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error('Auth error:', error);
+      toast.error(error.message || 'Authentication failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -117,7 +150,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, bookingDetails }
   );
 
   const renderRegistrationForm = () => (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={handleSubmit}>
       <div className="relative p-6 pb-0">
         <button
           type="button"

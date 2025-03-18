@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { FaCalendar, FaUser, FaBed, FaCreditCard, FaCheckCircle } from 'react-icons/fa';
 
 export default function BookingSummary({ booking, onConfirm }) {
+  if (!booking) return null;
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="text-center mb-8">
@@ -40,7 +42,8 @@ export default function BookingSummary({ booking, onConfirm }) {
                 <h3 className="font-medium text-gray-900">Stay Duration</h3>
                 <p className="text-gray-600 text-sm">
                   Check-in: {new Date(booking.checkIn).toLocaleDateString()}<br />
-                  Check-out: {new Date(booking.checkOut).toLocaleDateString()}
+                  Check-out: {new Date(booking.checkOut).toLocaleDateString()}<br />
+                  {booking.nights} night{booking.nights > 1 ? 's' : ''}
                 </p>
               </div>
             </div>
@@ -63,15 +66,15 @@ export default function BookingSummary({ booking, onConfirm }) {
           <div className="space-y-2">
             <div className="flex justify-between text-gray-600">
               <span>Room Rate ({booking.nights} nights)</span>
-              <span>${booking.room.price} × {booking.nights}</span>
+              <span>₹{booking.room.price} × {booking.nights}</span>
             </div>
             <div className="flex justify-between text-gray-600">
               <span>Taxes & Fees</span>
-              <span>${booking.taxes}</span>
+              <span>₹{booking.taxes}</span>
             </div>
             <div className="flex justify-between font-semibold text-gray-900 pt-2 border-t">
               <span>Total Amount</span>
-              <span>${booking.totalPrice}</span>
+              <span>₹{booking.totalPrice}</span>
             </div>
           </div>
         </div>

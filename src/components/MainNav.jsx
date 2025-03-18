@@ -15,8 +15,8 @@ const navItems = [
 
 const navVariants = {
   hidden: { opacity: 0, y: -100 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
@@ -45,14 +45,19 @@ export default function MainNav() {
         variants={navVariants}
         initial="hidden"
         animate="visible"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-sm shadow-lg border-b border-primary/10' 
-            : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 ${isScrolled
+            ? 'bg-gradient-to-t from-primary-200 via-primary-50/95 to-white/90 backdrop-blur-sm shadow-lg border-b-2 border-primary-100'
+            : 'bg-transparent border-b-2 border-transparent'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full">
-          <div className="flex justify-between items-center h-full">
+          <div className={`absolute inset-0 transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'
+            }`}>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary-200/70 via-primary-100/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-primary-100/20" />
+          </div>
+
+          <div className="flex justify-between items-center h-full relative">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <motion.div
@@ -81,10 +86,9 @@ export default function MainNav() {
                   <motion.div
                     whileHover={{ y: -2 }}
                     className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                      transition-all duration-200 ${
-                        pathname === item.href
-                          ? 'text-primary bg-primary/5'
-                          : 'text-gray-600 hover:text-primary hover:bg-primary/5'
+                      transition-all duration-200 ${pathname === item.href
+                        ? 'text-primary bg-white/50 shadow-sm backdrop-blur-sm'
+                        : 'text-gray-600 hover:text-primary hover:bg-white/30'
                       }`}
                   >
                     <span className="text-primary/80">{item.icon}</span>
@@ -143,7 +147,7 @@ export default function MainNav() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-x-0 top-20 z-40 md:hidden bg-white/95 backdrop-blur-sm shadow-lg border-b border-primary/10"
+            className="fixed inset-x-0 top-20 z-40 md:hidden bg-gradient-to-b from-primary-100 via-primary-50 to-white/95 backdrop-blur-sm shadow-lg border-b-2 border-primary-100"
           >
             <nav className="flex flex-col p-4 gap-2">
               {navItems.map((item) => (
@@ -154,11 +158,10 @@ export default function MainNav() {
                 >
                   <motion.div
                     whileTap={{ scale: 0.98 }}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                      pathname === item.href
-                        ? 'bg-primary/5 text-primary shadow-[0_0_8px_rgba(42,157,143,0.15)]'
-                        : 'text-gray-600 hover:bg-primary/5 hover:text-primary'
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${pathname === item.href
+                      ? 'bg-primary/5 text-primary shadow-[0_0_8px_rgba(42,157,143,0.15)]'
+                      : 'text-gray-600 hover:bg-primary/5 hover:text-primary'
+                      }`}
                   >
                     <span className="text-primary/80">{item.icon}</span>
                     <span className="font-medium">{item.label}</span>

@@ -100,10 +100,11 @@ export const mockRooms = [
       'Room Service': true,
     },
     images: [
-      'https://images.unsplash.com/photo-1595576508898-0ad5c879a061?q=80&w=2074',
-      'https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=2074',
-      'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=2074',
-      'https://images.unsplash.com/photo-1587985064135-0366536eab42?q=80&w=2074',
+      'https://images.unsplash.com/photo-1618773928121-c32242e63f39',
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b',
+      'https://images.unsplash.com/photo-1566665797739-1674de7a421a',
+      'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf',
+      'https://images.unsplash.com/photo-1584132967334-10e028bd69f7'
     ],
     rating: 4.8,
     size: '45m²',
@@ -248,6 +249,32 @@ export const mockReviews = {
       date: "2024-02-09",
       comment: "Spacious room with great amenities for the whole family. The kids didn't want to leave!",
       avatar: "https://images.unsplash.com/photo-1463453091185-61582044d556?q=80&w=100"
+    }
+  ],
+  4: [
+    {
+      id: 1,
+      userName: "John Smith",
+      rating: 5,
+      date: "2024-02-20",
+      comment: "Absolutely fantastic room with amazing views. The service was impeccable.",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100"
+    },
+    {
+      id: 2,
+      userName: "Sarah Johnson",
+      rating: 4,
+      date: "2024-02-15",
+      comment: "Beautiful room and great amenities. The city view was breathtaking.",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100"
+    },
+    {
+      id: 3,
+      userName: "Michael Brown",
+      rating: 5,
+      date: "2024-02-10",
+      comment: "Perfect stay! The room was spotless and the staff was very helpful.",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100"
     }
   ]
 }; 

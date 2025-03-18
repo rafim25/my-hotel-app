@@ -4,8 +4,11 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { LoadingProvider } from '@/contexts/LoadingContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import MainNav from '@/components/MainNav';
+import Footer from '@/components/Footer';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ReduxProvider } from '@/redux/provider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,14 +20,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <ErrorBoundary>
           <ReduxProvider>
             <AuthProvider>
               <LoadingProvider>
                 <ToastProvider>
                   <MainNav />
-                  {children}
+                  <main className="flex-grow">
+                    {children}
+                  </main>
+                  <Footer />
+                  <ToastContainer />
                 </ToastProvider>
               </LoadingProvider>
             </AuthProvider>

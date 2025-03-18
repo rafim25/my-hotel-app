@@ -215,7 +215,7 @@ export default function BookingModal({ isOpen, onClose, room }) {
                           </div>
                           <div className="flex justify-between font-semibold pt-2 border-t">
                             <span>Total</span>
-                            <span>${totalPrice}</span>
+                            <span className="text-2xl font-bold">₹{totalPrice}</span>
                           </div>
                         </div>
                       </div>

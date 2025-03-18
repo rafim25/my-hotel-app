@@ -42,8 +42,25 @@ export default function BookingSummaryPage() {
   const [bookingState, dispatch] = useReducer(bookingReducer, initialState);
 
   useEffect(() => {
-    const roomId = searchParams.get('room');
-    setRoom(mockRooms.find(r => r.id === parseInt(roomId)));
+    const roomId = searchParams.get('roomId');
+    const room = mockRooms.find(r => r.id.toString() === roomId);
+    if (room) {
+      setRoom(room);
+      const checkIn = new Date(searchParams.get('checkIn'));
+      const checkOut = new Date(searchParams.get('checkOut'));
+      const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+      const taxes = room.price * nights * 0.18;
+      const totalPrice = (room.price * nights) + taxes;
+
+      dispatch(updateStayDetails({
+        checkIn: searchParams.get('checkIn'),
+        checkOut: searchParams.get('checkOut'),
+        guests: parseInt(searchParams.get('guests')),
+        nights,
+        taxes,
+        totalPrice
+      }));
+    }
   }, [searchParams]);
 
   const handleSubmit = async (e) => {
@@ -290,7 +307,13 @@ export default function BookingSummaryPage() {
     }
   };
 
-  if (!room) return null;
+  if (!room) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
@@ -300,25 +323,77 @@ export default function BookingSummaryPage() {
         className="space-y-8"
       >
         {/* Progress Steps */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center relative">
-            <div className="absolute left-0 right-0 top-1/2 h-1 bg-gray-200 -z-10" />
-            <div
-              className="absolute left-0 right-0 top-1/2 h-1 bg-primary transition-all duration-300"
-              style={{ width: `${((currentStep - 1) / (BOOKING_STEPS.length - 1)) * 100}%` }}
+        <div className="mb-12 overflow-x-hidden">
+          <div className="relative">
+            {/* Progress Line Background */}
+            <div 
+              className="absolute top-7 h-1 bg-gray-200 hidden md:block" 
+              style={{
+                left: 'calc(5% + 3.5rem)',
+                right: 'calc(5% + 3.5rem)',
+                width: 'calc(90% - 7rem)'
+              }}
             />
-            {BOOKING_STEPS.map((step) => (
-              <div key={step.id} className="flex flex-col items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300
-                  ${step.id <= currentStep ? 'bg-primary text-white' : 'bg-gray-200 text-gray-400'}`}>
-                  <step.icon className="w-5 h-5" />
+            
+            {/* Active Progress Line */}
+            <div 
+              className="absolute top-7 h-1 bg-teal-500 transition-all duration-500 hidden md:block"
+              style={{ 
+                left: 'calc(5% + 3.5rem)',
+                width: currentStep === 1 
+                  ? '0%' 
+                  : `${((currentStep - 1) / (BOOKING_STEPS.length - 1)) * (90 - 7)}%`,
+                maxWidth: 'calc(90% - 7rem)'
+              }}
+            />
+
+            {/* Steps */}
+            <div className="relative flex justify-between px-2 md:px-[5%] min-w-full">
+              {BOOKING_STEPS.map((step, index) => (
+                <div key={step.id} className="flex flex-col items-center w-full max-w-[100px] md:max-w-[120px] px-1 md:px-0">
+                  {/* Step Circle */}
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      scale: currentStep === step.id ? 1.1 : 1,
+                    }}
+                    className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center z-10
+                      transition-all duration-300 shadow-md ${
+                      currentStep > step.id 
+                        ? 'bg-teal-600 text-white' 
+                        : currentStep === step.id
+                        ? 'bg-teal-500 text-white ring-2 md:ring-4 ring-teal-100'
+                        : 'bg-white text-gray-400 border-2 border-gray-200'
+                    }`}
+                  >
+                    {currentStep > step.id ? (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="bg-teal-600 rounded-full p-1 md:p-1.5"
+                      >
+                        <FaCheck className="w-3 h-3 md:w-4 md:h-4" />
+                      </motion.div>
+                    ) : (
+                      <step.icon className="w-4 h-4 md:w-5 md:h-5" />
+                    )}
+                  </motion.div>
+
+                  {/* Step Label */}
+                  <div className="mt-2 md:mt-3 text-center w-full">
+                    <p className={`font-medium text-[10px] md:text-sm truncate ${
+                      currentStep > step.id 
+                        ? 'text-teal-600'
+                        : currentStep === step.id
+                        ? 'text-teal-500'
+                        : 'text-gray-400'
+                    }`}>
+                      {step.title}
+                    </p>
+                  </div>
                 </div>
-                <span className={`mt-2 text-sm font-medium transition-colors duration-300 ${step.id <= currentStep ? 'text-primary' : 'text-gray-400'
-                  }`}>
-                  {step.title}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 

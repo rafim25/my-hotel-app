@@ -20,16 +20,11 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-export default function RoomsGrid({ rooms, loading }) {
+export default function RoomsGrid({ rooms = mockRooms, loading = false }) {
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        >
-          <FaSpinner className="text-primary text-3xl" />
-        </motion.div>
+      <div className="flex justify-center items-center py-20">
+        <FaSpinner className="animate-spin text-4xl text-primary" />
       </div>
     );
   }
@@ -47,7 +42,7 @@ export default function RoomsGrid({ rooms, loading }) {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr"
     >
       {rooms.map((room) => (
         <motion.div key={room.id} variants={itemVariants}>
