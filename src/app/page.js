@@ -1,103 +1,168 @@
 import Image from "next/image";
+import Navbar from '@/components/Navbar';
+import BookingForm from '@/components/BookingForm';
+import ServiceCard from '@/components/ServiceCard';
+import Link from 'next/link';
+import Footer from '@/components/Footer';
+import SpecialOfferCard from '@/components/SpecialOfferCard';
+import HeroCarousel from '@/components/HeroCarousel';
+import ScrollToTop from '@/components/ScrollToTop';
+
+const services = [
+  {
+    title: 'Luxury Rooms',
+    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39',
+    href: '/rooms'
+  },
+  {
+    title: 'Fine Dining',
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0',
+    href: '/dining'
+  },
+  {
+    title: 'Spa & Wellness',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874',
+    href: '/spa'
+  },
+  {
+    title: 'Events & Weddings',
+    image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3',
+    href: '/events'
+  },
+  {
+    title: 'Conferences & Meetings',
+    image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205',
+    href: '/meetings'
+  },
+  {
+    title: 'Services & Facilities',
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b',
+    href: '/services'
+  },
+  {
+    title: 'Fitness Center',
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48',
+    href: '/fitness'
+  },
+  {
+    title: 'Wedding Package',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552',
+    href: '/weddings'
+  }
+];
+
+const specialOffers = [
+  {
+    title: 'Weekend Getaway',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+    price: 299,
+    discount: 20,
+    description: 'Enjoy a luxurious weekend stay with breakfast included'
+  },
+  {
+    title: 'Honeymoon Package',
+    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4',
+    price: 599,
+    discount: 15,
+    description: 'Special package for newlyweds with romantic dinner'
+  },
+  {
+    title: 'Business Package',
+    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a',
+    rating: 4.9,
+    description: 'Perfect for corporate stays with meeting room access',
+    price: 999
+  },
+  {
+    title: 'Family Vacation',
+    image: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6',
+    rating: 4.7,
+    description: 'Spacious suite with activities for the whole family',
+    price: 499
+  }
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <ScrollToTop />
+      <main className="min-h-screen">
+        {/* <Navbar /> */}
+        
+        {/* Hero Section */}
+        <HeroCarousel />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        {/* Booking Form */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+          <BookingForm />
         </div>
+
+        {/* Services Grid */}
+        <section className="py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Discover our wide range of premium services designed to make your stay unforgettable
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {services.map((service, index) => (
+                <ServiceCard key={index} {...service} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Special Offers */}
+        <section className="bg-gray-50 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+              <div>
+                <span className="text-primary font-semibold">Special Offers</span>
+                <h2 className="text-3xl md:text-4xl font-bold mt-2">Best offers of the month</h2>
+                <p className="text-gray-600 mt-2 max-w-2xl">
+                  Experience fantastic benefits and get better rates when you make a direct booking
+                </p>
+              </div>
+              <Link href="/offers" className="mt-4 md:mt-0 text-primary hover:underline font-semibold">
+                View all offers →
+              </Link>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {specialOffers.map((offer, index) => (
+                <SpecialOfferCard key={index} {...offer} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Newsletter */}
+        <section className="bg-primary text-white py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-6 md:mb-0">
+                <h2 className="text-2xl md:text-3xl font-bold mb-2">Newsletter & Special Promo</h2>
+                <p className="text-white/90">Subscribe to get special offers and updates</p>
+              </div>
+              <div className="w-full md:w-auto">
+                <form className="flex flex-col sm:flex-row gap-4">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="px-6 py-3 rounded-md w-full sm:w-80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+                  />
+                  <button className="bg-white text-primary px-8 py-3 rounded-md hover:bg-gray-100 transition-colors font-semibold">
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }
